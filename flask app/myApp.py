@@ -48,7 +48,8 @@ def getDbConnection():
 
 @app.route('/')
 def index():
-    return render_template("index.html")
+    title = "Home page"
+    return render_template("index.html",title = title)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -87,17 +88,27 @@ def login():
 
 @app.route('/admin')
 def admin():
+    title = "Admin page"
     if 'username' in session and session['username'] == "admin":
-        return render_template("admin.html") 
+        return render_template("admin.html", title = title) 
     else:
         flash("Unauthorized access to admin prevented!")
         return redirect(url_for('index'))
+
+@app.route('/stock')
+def stock():
+    title = "Stock"
+    return render_template('stock.html')
 
 @app.route('/logout')
 def logout():
     session.pop('username', None)  # Remove 'username' from the session
     flash("You have been logged out.")
     return redirect(url_for('index'))
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 if __name__ == "__main__":
     app.run(debug=True)
