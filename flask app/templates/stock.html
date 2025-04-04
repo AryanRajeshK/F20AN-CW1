@@ -6,7 +6,7 @@
     <form method="POST">
         {{ form.hidden_tag() }}
         <div class="d-flex mb-3">
-            {{ form.searchQuery(class="form-control me-2", placeholder="Search by stock name or manufacturer") }}
+            {{ form.searchQuery(class="form-control me-2", placeholder="Search by stock name or manufacturer", id="searchBar") }}
             {{ form.submit(class="btn btn-primary") }}
         </div>
     </form>
@@ -33,5 +33,30 @@
         {% endfor %}
       </tbody>
     </table>
+
+    <!-- query box to display the query -->
+    <div id="query-box">
+        <strong>SQL Query used in search bar (demo purpose):</strong>
+        <p id="sql-query">SELECT * FROM stock WHERE name LIKE '%{search}%' OR manufacturer LIKE '%{search}%'</p>
+    </div>
+
 </div>
+
+<!-- update for query box -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchQuery = document.getElementById("searchBar");
+            const queryContent = document.getElementById("sql-query");
+
+            // query update function
+            function updateQuery() {
+                const search = searchQuery.value || "";
+                queryContent.textContent = `SELECT * FROM stock WHERE name LIKE '%${search}%' OR manufacturer LIKE '%${search}%'`;
+            }
+
+            // update based on keyboard input
+            searchQuery.addEventListener("input", updateQuery);
+        });
+    </script>
+
 {% endblock %}
