@@ -1,8 +1,37 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="jumbotron">
-  <h1>Welcome to the stock system</h1>
-  <p>Content Area</p>
+<div class="container mt-4">
+    <h1>Stock List</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="d-flex mb-3">
+            {{ form.searchQuery(class="form-control me-2", placeholder="Search by stock name or manufacturer") }}
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+    </form>
+    <hr>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Stock Name</th>
+          <th>Manufacturer</th>
+          <th>Quantity</th>
+          <th>Price (AED)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in stocks %}
+        <tr>
+          <td>{{ item['id'] }}</td>
+          <td>{{ item['name'] }}</td>
+          <td>{{ item['manufacturer'] }}</td>
+          <td>{{ item['quantity'] }}</td>
+          <td>{{ item['price'] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
 </div>
 {% endblock %}

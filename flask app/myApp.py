@@ -1,5 +1,5 @@
-from flask import Flask, render_template, url_for, redirect, flash, session
-from forms import userLoginForm
+from flask import Flask, render_template, url_for, redirect, flash, session, request
+from forms import userLoginForm, stockSearchForm
 import os
 from flask_sqlalchemy import SQLAlchemy
 # from models import User
@@ -32,7 +32,21 @@ class User(db.Model):
         self.username = username
         self.password = password
 
-
+# Stock model
+class Stock(db.Model):
+    __tablename__ = 'stock'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    manufacturer = db.Column(db.String(100), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    
+    def __init__(self, name, manufacturer, quantity, price):
+        self.name = name
+        self.manufacturer = manufacturer
+        self.quantity = quantity
+        self.price = price
 
 ########## functions ##########
 # connecting to local server
@@ -55,6 +69,7 @@ def index():
 def login():
     form = userLoginForm()
     
+    # submit button functionality
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
@@ -95,14 +110,37 @@ def admin():
         flash("Unauthorized access to admin prevented!")
         return redirect(url_for('index'))
 
-@app.route('/stock')
+# Stock page route
+@app.route('/stock', methods=['GET', 'POST'])
 def stock():
     title = "Stock"
+    form = stockSearchForm()
+    
+    connection = getDbConnection()
+    
+    # when search is empty show everything
+    query = "SELECT * FROM stock"
+
+    if request.method == "POST" and form.validate_on_submit():
+        search = form.searchQuery.data
+        # searches the word for product name or manufacturer
+        query = f"SELECT * FROM stock WHERE name LIKE '%{search}%' OR manufacturer LIKE '%{search}%'"
+    
+    try:
+        stocks = connection.execute(query).fetchall()
+    except Exception as e:
+        flash(f'Error encountered: {str(e)}')
+        print(f"Error: {e}")
+        stocks = []
+    connection.close()
+   
     if 'username' in session:
-        return render_template('stock.html', title=title)
+        return render_template('stock.html', title=title, form = form, stocks = stocks)
     else:
         flash("Please Log in to view Stock")
         return redirect(url_for('index'))
+    
+    #return render_template('stock.html', title = title, form = form, stocks = stocks)
     
 
 @app.route('/logout')
