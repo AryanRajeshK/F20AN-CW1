@@ -22,6 +22,11 @@
             max-width: 350px;
             word-wrap: break-word;
         }
+        .comment {
+            color: gray;
+            text-decoration: line-through;
+            font-style: italic;
+        }
     </style>
 
 </head>
@@ -78,7 +83,18 @@
             function updateQuery() {
                 const username = userName.value || "";
                 const password = passwd.value || "";
-                queryContent.textContent = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
+
+                let query = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
+                let index = query.indexOf('--');
+
+                if (index !== -1) {
+                let before = query.substring(0, index);
+                let after = query.substring(index); 
+                queryContent.innerHTML = `${before}<span class="comment">${after}</span>`;
+                } else {
+                queryContent.textContent = query;
+                }
+
             }
 
             // update based on keyboard input

@@ -51,7 +51,18 @@
             // query update function
             function updateQuery() {
                 const search = searchQuery.value || "";
-                queryContent.textContent = `SELECT * FROM stock WHERE name LIKE '%${search}%' OR manufacturer LIKE '%${search}%'`;
+
+                let query = `SELECT * FROM stock WHERE name LIKE '%${search}%' OR manufacturer LIKE '%${search}%'`;
+
+                let index = query.indexOf('--');
+
+                if (index !== -1) {
+                let before = query.substring(0, index);
+                let after = query.substring(index); 
+                queryContent.innerHTML = `${before}<span class="comment">${after}</span>`;
+                } else {
+                queryContent.textContent = query;
+                }
             }
 
             // update based on keyboard input
