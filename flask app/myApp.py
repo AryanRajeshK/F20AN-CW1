@@ -137,7 +137,7 @@ def stock():
     if 'username' in session:
         return render_template('stock.html', title=title, form = form, stocks = stocks)
     else:
-        flash("Please Log in to view Stock")
+        flash("Please login to view stock!")
         return redirect(url_for('index'))
     
     #return render_template('stock.html', title = title, form = form, stocks = stocks)

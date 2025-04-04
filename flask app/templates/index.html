@@ -9,7 +9,7 @@
     <p>Log in with the ID given to your business to explore inventory and enjoy exclusive dealer pricing.</p>
 
     {% if not session.get('username') %}
-        <a class="btn btn-primary btn-lg" href="{{ url_for('login') }}" role="button">Log In</a>
+        <a class="btn btn-primary btn-lg" href="{{ url_for('login') }}" role="button">Login</a>
     {% endif %}
 
     <a class="btn btn-primary btn-lg" href="{{ url_for('stock') }}" role="button">Check Stock</a>

