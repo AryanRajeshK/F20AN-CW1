@@ -115,6 +115,7 @@ def admin():
 def stock():
     title = "Stock"
     form = stockSearchForm()
+    
     connection = getDbConnection()
     
     # when search is empty show everything
@@ -132,8 +133,15 @@ def stock():
         print(f"Error: {e}")
         stocks = []
     connection.close()
-
-    return render_template('stock.html', title = title, form = form, stocks = stocks)
+   
+    if 'username' in session:
+        return render_template('stock.html', title=title, form = form, stocks = stocks)
+    else:
+        flash("Please Log in to view Stock")
+        return redirect(url_for('index'))
+    
+    #return render_template('stock.html', title = title, form = form, stocks = stocks)
+    
 
 @app.route('/logout')
 def logout():
