@@ -98,7 +98,12 @@ def admin():
 @app.route('/stock')
 def stock():
     title = "Stock"
-    return render_template('stock.html')
+    if 'username' in session:
+        return render_template('stock.html', title=title)
+    else:
+        flash("Please Log in to view Stock")
+        return redirect(url_for('index'))
+    
 
 @app.route('/logout')
 def logout():
