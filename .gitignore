@@ -1,2 +1,5 @@
 flask app/database.sqlite3
-flask app/__pycache__
+
+__pycache__/
+*/__pycache__/
+*.pyc
