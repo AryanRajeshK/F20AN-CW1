@@ -27,10 +27,12 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
-    
-    def __init__(self, username, password):
+    role = db.Column(db.String(20), nullable=False, default='user')
+    def __init__(self, username, password, role='user'):
         self.username = username
         self.password = password
+        self.role = role
+
 
 # Stock model
 class Stock(db.Model):
@@ -90,8 +92,10 @@ def login():
         
         if user:
             session['username'] = user['username']
+            session['role'] = user['role']
+            
             flash(f"Welcome {user['username']}!", "success")
-            return redirect(url_for('admin')) if session['username'] == "admin" else redirect(url_for('index'))
+            return redirect(url_for('admin')) if session['role'] == "admin" else redirect(url_for('index'))
         
         else:
             flash(f'Invalid username or password! Try Again.')
@@ -104,7 +108,7 @@ def login():
 @app.route('/admin')
 def admin():
     title = "Admin page"
-    if 'username' in session and session['username'] == "admin":
+    if 'username' in session and session['role'] == "admin":
         return render_template("admin.html", title = title) 
     else:
         flash("Unauthorized access to admin prevented!")
@@ -146,6 +150,8 @@ def stock():
 @app.route('/logout')
 def logout():
     session.pop('username', None)  # Remove 'username' from the session
+    session.pop('role', None)
+    
     flash("You have been logged out.")
     return redirect(url_for('index'))
 

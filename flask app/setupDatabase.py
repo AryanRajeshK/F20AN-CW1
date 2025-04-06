@@ -6,7 +6,7 @@ def setupDatabase():
         
         adminUser = User.query.filter_by(username="admin").first()
         if not adminUser:
-            admin = User(username="admin", password="dubai2020!")
+            admin = User(username="admin", password="dubai2020!", role="admin")
             testUser = User(username="patson", password="patson123")
             db.session.add(admin)
             db.session.add(testUser)
