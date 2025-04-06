@@ -3,19 +3,24 @@ from myApp import db, app, User, Stock
 def setupDatabase():
     with app.app_context():
         db.create_all()
-        
         adminUser = User.query.filter_by(username="admin").first()
         if not adminUser:
-            admin = User(username="admin", password="dubai2020!", role="admin")
-            testUser = User(username="patson", password="patson123")
-            db.session.add(admin)
-            db.session.add(testUser)
+            admin = User(username="patson", password="dubai2020!", role="admin")
+            testUser1 = User(username="sharafdg", password="passsw0rd!")
+            testUser2 = User(username="jumbo", password="discount@123")
+            testUser3 = User(username="emax", password="123456789")
+            testUser4 = User(username="apple", password="moneyyy123")
+            testUser5 = User(username="aryan", password="aryan@123")
+            testUser6 = User(username="abdi", password="basketball")
+            testUser7 = User(username="tech4uManager", password="techy1234", role='admin')
+            db.session.add_all([
+                admin, testUser1, testUser2, testUser3, testUser4, testUser5, testUser6, testUser7
+            ])
             db.session.commit()
-            print("Admin user and test user created.")
-            print(f"\nadmin creds: \n\tu:{admin.username}\n\tp:{admin.password}")
-            print(f"test user creds: \n\tu:{testUser.username}\n\tp:{testUser.password}")
+            print("Users added")
+            
         else:
-            print("Admin user already exists.")
+            print("Users already exists.")
 
 
         # Adding data to table Stock
