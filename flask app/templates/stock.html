@@ -17,8 +17,9 @@
           <th>ID</th>
           <th>Stock Name</th>
           <th>Manufacturer</th>
-          <th>Quantity</th>
+          <th>In Stock</th>
           <th>Price (AED)</th>
+          <th>Add to Cart</th>
         </tr>
       </thead>
       <tbody>
@@ -29,6 +30,13 @@
           <td>{{ item['manufacturer'] }}</td>
           <td>{{ item['quantity'] }}</td>
           <td>{{ item['price'] }}</td>
+          <td>
+            <div class="input-group input-group-sm">
+              <button class="btn btn-outline-secondary" type="button" disabled>-</button>
+              <input type="text" class="form-control text-center" value="0" style="max-width: 45px;" disabled>
+              <button class="btn btn-outline-secondary" type="button" disabled>+</button>
+            </div>
+          </td>
         </tr>
         {% endfor %}
       </tbody>
@@ -50,7 +58,7 @@
 
             // query update function
             function updateQuery() {
-                const search = searchQuery.value || "";
+                const search = searchQuery.value || "{search}";
 
                 let query = `SELECT * FROM stock WHERE name LIKE '%${search}%' OR manufacturer LIKE '%${search}%'`;
 
@@ -64,6 +72,8 @@
                 queryContent.textContent = query;
                 }
             }
+
+            updateQuery();
 
             // update based on keyboard input
             searchQuery.addEventListener("input", updateQuery);

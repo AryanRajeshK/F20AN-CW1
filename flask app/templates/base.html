@@ -58,6 +58,9 @@
                     <span class="navbar-text">
                         Welcome, {{ session.get('username') }}!
                     </span>
+
+                    <a class="btn btn-outline-primary ms-4 me-3" href="">View Cart</a>
+
                     <!-- Logout button -->
                     <a class="btn btn-outline-danger ms-3" href="{{ url_for('logout') }}">Logout</a>
                 {% else %}
